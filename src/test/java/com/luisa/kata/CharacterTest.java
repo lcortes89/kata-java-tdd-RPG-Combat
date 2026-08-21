@@ -2,6 +2,7 @@ package com.luisa.kata;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import org.junit.jupiter.api.Test;
 
 public class CharacterTest {
@@ -25,5 +26,26 @@ public class CharacterTest {
         Character character = new Character();
 
         assertEquals(1, character.getLevel());
+    }
+
+    @Test
+    public void dealDamageReducesTargetHealth(){
+        Character attacker = new Character();
+        Character target = new Character();
+
+        attacker.dealDamage(target, 100);
+
+        assertEquals(900, target.getHealth());
+    }
+
+    @Test
+    public void characterDiesWhenDamageExceedsHealth(){
+        Character attacker = new Character();
+        Character target = new Character();
+
+        attacker .dealDamage(target, 1500);
+
+        assertEquals(0, target.getHealth());
+        assertFalse(target.isAlive());
     }
 }

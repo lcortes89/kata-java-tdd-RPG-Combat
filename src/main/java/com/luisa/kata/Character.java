@@ -17,4 +17,15 @@ public class Character {
     public int getLevel(){
         return level;
     }
+
+    public void dealDamage(Character target, int amount){
+        int newHealth = target.health - amount;
+
+        if(newHealth <= 0) {
+            target.health = 0;
+            target.alive = false;
+        } else{
+            target.health = newHealth;
+        }
+    }
 }

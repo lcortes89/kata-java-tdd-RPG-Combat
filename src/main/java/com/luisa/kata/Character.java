@@ -28,4 +28,18 @@ public class Character {
             target.health = newHealth;
         }
     }
+
+    public void heal (Character target, int amount) {
+        if (!target.alive) {
+            return;
+        }
+
+        int newHealth = target.health + amount;
+        if (newHealth > 1000){
+            target.health = 1000;
+        } else{
+            target.health = newHealth;
+        }
+
+        }
 }

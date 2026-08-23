@@ -48,4 +48,38 @@ public class CharacterTest {
         assertEquals(0, target.getHealth());
         assertFalse(target.isAlive());
     }
+
+    @Test
+    public void healIncreasesTargetHealth(){
+        Character attacker = new Character();
+        Character target = new Character();
+        attacker.dealDamage(target, 300);
+
+        Character healer = new Character();
+        healer.heal(target, 100);
+
+        assertEquals(800, target.getHealth());
+    }
+
+    @Test
+    public void healCannotExceedMaxHealth(){
+        Character healer = new Character();
+        Character target = new Character();
+
+        healer.heal(target, 500);
+
+        assertEquals(1000, target.getHealth());
+    }
+
+    @Test
+    public void deadCharacterCannotBeHealed(){
+        Character attacker = new Character();
+        Character target = new Character();
+        attacker.dealDamage(target, 1500);
+
+        Character healer = new Character();
+        healer.heal(target, 100);
+
+        assertEquals(0, target.getHealth());
+    }
 }

@@ -94,4 +94,14 @@ public class Character {
     public void leaveFaction(String faction) {
         factions.remove(faction);
     }
+
+    public boolean isAllyOf(Character other) {
+        for (String faction : this.factions) {
+            if (other.factions.contains(faction)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

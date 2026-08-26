@@ -171,4 +171,24 @@ public class CharacterTest {
 
         assertFalse(character.isInFaction("Elfos"));
     }
+
+    @Test
+    public void charactersInSameFactionAreAllies() {
+        Character character = new Character();
+        Character other = new Character();
+        character.joinFaction("Elfos");
+        other.joinFaction("Elfos");
+
+        assertTrue(character.isAllyOf(other));
+    }
+
+    @Test
+    public void charactersInDifferentFactionsAreNotAllies() {
+        Character character = new Character();
+        Character other = new Character();
+        character.joinFaction("Elfos");
+        other.joinFaction("Piratas");
+
+        assertFalse(character.isAllyOf(other));
+    }
 }

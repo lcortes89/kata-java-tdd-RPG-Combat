@@ -50,28 +50,6 @@ public class CharacterTest {
     }
 
     @Test
-    public void healIncreasesTargetHealth(){
-        Character attacker = new Character();
-        Character target = new Character();
-        attacker.dealDamage(target, 300);
-
-        Character healer = new Character();
-        healer.heal(target, 100);
-
-        assertEquals(800, target.getHealth());
-    }
-
-    @Test
-    public void healCannotExceedMaxHealth(){
-        Character healer = new Character();
-        Character target = new Character();
-
-        healer.heal(target, 500);
-
-        assertEquals(1000, target.getHealth());
-    }
-
-    @Test
     public void deadCharacterCannotBeHealed(){
         Character attacker = new Character();
         Character target = new Character();
@@ -91,4 +69,46 @@ public class CharacterTest {
 
         assertEquals(1000, character.getHealth());
     }
-}
+
+    @Test
+    public void healIncreasesOwnHealth() {
+        Character attacker = new Character();
+        Character character = new Character();
+        attacker.dealDamage(character, 300);
+
+        character.heal(character, 100);
+
+        assertEquals(800, character.getHealth());
+    }
+
+    @Test
+    public void healCannotExceedMaxHealth() {
+        Character character = new Character();
+
+        character.heal(character, 500);
+
+        assertEquals(1000, character.getHealth());
+    }
+
+    @Test
+    public void deadCharacterCannotBeHaled() {
+        Character attacker = new Character();
+        Character character = new Character();
+        attacker.dealDamage(character, 1500);
+
+        character.heal(character, 100);
+
+        assertEquals(0, character.getHealth());
+    }
+
+    @Test
+    public void healingAnotherCharacterDoesNothing() {
+        Character attacker = new Character();
+        Character character = new Character();
+        attacker.dealDamage(character, 300);
+        
+        attacker.heal(character, 100);
+
+        assertEquals(700, character.getHealth());
+    }
+    }

@@ -191,4 +191,16 @@ public class CharacterTest {
 
         assertFalse(character.isAllyOf(other));
     }
+
+    @Test
+    public void alliesCannotDealDamageToEachOther() {
+        Character attacker = new Character();
+        Character target = new Character();
+        attacker.joinFaction("Elfos");
+        target.joinFaction("Elfos");
+
+        attacker.dealDamage(target, 100, 1);
+
+        assertEquals(1000, target.getHealth());
+    }
 }

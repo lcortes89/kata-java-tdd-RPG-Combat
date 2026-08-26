@@ -44,6 +44,10 @@ public class Character {
             return;
         }
 
+        if (this.isAllyOf(target)) {
+            return;
+        }
+
         if (distance > this.attackRange) {
             return;
         }

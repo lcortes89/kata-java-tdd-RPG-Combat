@@ -203,4 +203,18 @@ public class CharacterTest {
 
         assertEquals(1000, target.getHealth());
     }
-}
+
+    @Test
+    public void alliesCanHealEachOther() {
+        Character attacker = new Character();
+        Character character = new Character();
+        Character healer = new Character();
+        character.joinFaction("Elfos");
+        healer.joinFaction("Elfos");
+
+        attacker.dealDamage(character, 300, 1);
+        healer.heal(character, 100);
+
+        assertEquals(800, character.getHealth());
+        }
+    }

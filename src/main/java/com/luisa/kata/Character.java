@@ -18,17 +18,6 @@ public class Character {
         return level;
     }
 
-    public void dealDamage(Character target, int amount){
-        int newHealth = target.health - amount;
-
-        if(newHealth <= 0) {
-            target.health = 0;
-            target.alive = false;
-        } else{
-            target.health = newHealth;
-        }
-    }
-
     public void heal (Character target, int amount) {
         if (!target.alive) {
             return;
@@ -42,4 +31,19 @@ public class Character {
         }
 
         }
+
+    public void dealDamage(Character target, int amount) {
+        if (this == target) {
+            return;
+        }
+
+        int newHealth = target.health - amount;
+
+        if (newHealth <= 0) {
+            target.health =0;
+            target.alive = false;
+        } else {
+            target.health = newHealth;
+        }
+    }
 }

@@ -217,4 +217,50 @@ public class CharacterTest {
 
         assertEquals(800, character.getHealth());
         }
+
+        @Test
+        public void newTreeHasGivenHealth() {
+            Tree Tree = new Tree(2000);
+
+            assertEquals(2000, Tree.getHealth());
+
+        }
+
+        @Test
+        public void newTreeIsNowDestroyed() {
+            Tree tree = new Tree(2000);
+
+            assertFalse(tree.isDestroyed());
+        }
+
+        @Test
+        public void characterCanDealDamageToTree() {
+            Character character = new Character();
+            Tree tree = new Tree(2000);
+
+            character.dealDamage(tree, 300, 1);
+
+            assertEquals(1700, tree.getHealth());
+        }
+
+        @Test
+        public void treeIsDestroyedWhenDamageExceedsHealth() {
+        Character character = new Character();
+        Tree tree = new Tree(2000);
+
+        character.dealDamage(tree, 2500, 1);
+
+        assertEquals(0, tree.getHealth());
+        assertTrue(tree.isDestroyed());
+        }
+
+        @Test
+        public void dealDamageFailsWhenTreeOutOfRange() {
+            Character character = new Character();
+            Tree tree = new Tree(2000);
+
+            character.dealDamage(tree, 300, 3);
+
+            assertEquals(2000, tree.getHealth());
+        }
     }

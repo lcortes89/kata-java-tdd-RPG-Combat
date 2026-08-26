@@ -70,6 +70,14 @@ public class Character {
         }
     }
 
+    public void dealDamage(Tree target, int amount, int distance) {
+    if (distance > this.attackRange) {
+        return;
+    }
+
+    target.receiveDamage(amount);
+    }
+
     public void heal(Character target, int amount) {
         if(this != target && !this.isAllyOf(target)) {
             return;
@@ -109,3 +117,4 @@ public class Character {
     }
 
 }
+

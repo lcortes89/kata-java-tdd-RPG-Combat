@@ -1,11 +1,15 @@
 package com.luisa.kata;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Character {
 
     private int health = 1000;
     private boolean alive = true;
     private int level = 1;
     private int attackRange = 2;
+    private Set<String> factions = new HashSet<>();
 
     public Character() {
     }
@@ -77,5 +81,17 @@ public class Character {
         } else {
             target.health = newHealth;
         }
+    }
+
+    public boolean isInFaction(String faction) {
+        return factions.contains(faction);
+    }
+
+    public void joinFaction(String faction) {
+        factions.add(faction);
+    }
+
+    public void leaveFaction(String faction) {
+        factions.remove(faction);
     }
 }

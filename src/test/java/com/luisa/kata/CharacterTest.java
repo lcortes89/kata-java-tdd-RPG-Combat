@@ -145,4 +145,30 @@ public class CharacterTest {
 
         assertEquals(1000, target.getHealth());
     }
+
+    @Test
+    public void newCharacterBelongsToNoFaction() {
+        Character character = new Character();
+
+        assertFalse(character.isInFaction("Elfos"));
+    }
+
+    @Test
+    public void characterCanJoinFaction() {
+        Character character = new Character();
+
+        character.joinFaction("Elfos");
+
+        assertTrue(character.isInFaction("Elfos"));
+    }
+
+    @Test
+    public void characterCanLeaveFaction() {
+        Character character = new Character();
+        character.joinFaction("Elfos");
+
+        character.leaveFaction("Elfos");
+
+        assertFalse(character.isInFaction("Elfos"));
+    }
 }

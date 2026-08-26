@@ -33,7 +33,7 @@ public class CharacterTest {
         Character attacker = new Character();
         Character target = new Character();
 
-        attacker.dealDamage(target, 100);
+        attacker.dealDamage(target, 100, 1);
 
         assertEquals(900, target.getHealth());
     }
@@ -43,29 +43,17 @@ public class CharacterTest {
         Character attacker = new Character();
         Character target = new Character();
 
-        attacker .dealDamage(target, 1500);
+        attacker .dealDamage(target, 1500, 1);
 
         assertEquals(0, target.getHealth());
         assertFalse(target.isAlive());
     }
 
     @Test
-    public void deadCharacterCannotBeHealed(){
-        Character attacker = new Character();
-        Character target = new Character();
-        attacker.dealDamage(target, 1500);
-
-        Character healer = new Character();
-        healer.heal(target, 100);
-
-        assertEquals(0, target.getHealth());
-    }
-
-    @Test
     public void characterCannotDealDamageToItself(){
         Character character = new Character();
 
-        character.dealDamage(character, 100);
+        character.dealDamage(character, 100, 1);
 
         assertEquals(1000, character.getHealth());
     }
@@ -74,7 +62,7 @@ public class CharacterTest {
     public void healIncreasesOwnHealth() {
         Character attacker = new Character();
         Character character = new Character();
-        attacker.dealDamage(character, 300);
+        attacker.dealDamage(character, 300, 1);
 
         character.heal(character, 100);
 
@@ -94,7 +82,7 @@ public class CharacterTest {
     public void deadCharacterCannotBeHaled() {
         Character attacker = new Character();
         Character character = new Character();
-        attacker.dealDamage(character, 1500);
+        attacker.dealDamage(character, 1500, 1);
 
         character.heal(character, 100);
 
@@ -105,7 +93,7 @@ public class CharacterTest {
     public void healingAnotherCharacterDoesNothing() {
         Character attacker = new Character();
         Character character = new Character();
-        attacker.dealDamage(character, 300);
+        attacker.dealDamage(character, 300, 1);
         
         attacker.heal(character, 100);
 
@@ -117,7 +105,7 @@ public class CharacterTest {
         Character attacker = new Character(1);
         Character target = new Character(6);
 
-        attacker.dealDamage(target, 100);
+        attacker.dealDamage(target, 100,1);
 
         assertEquals(950, target.getHealth());
     }
@@ -127,7 +115,34 @@ public class CharacterTest {
         Character attacker = new Character(6);
         Character target = new Character(1);
 
-        attacker.dealDamage(target, 100);
+        attacker.dealDamage(target, 100,1);
         assertEquals(850, target.getHealth());
     }
+
+    @Test
+    public void characterHasGivenAttackRange() {
+        Character character = new Character(1, 2);
+
+        assertEquals(2, character.getAttackRange());
     }
+
+    @Test
+    public void dealDamageSucceedsWhenTargetInRange() {
+        Character attacker = new Character(1, 2);
+        Character target = new Character(1, 2);
+
+        attacker.dealDamage(target, 100, 2);
+
+        assertEquals(900, target.getHealth());
+    }
+
+    @Test
+    public void dealDamageFailsWhenTargetOutOfRange() {
+        Character attacker = new Character(1,2);
+        Character target = new Character(1,2);
+
+        attacker.dealDamage(target,100, 3);
+
+        assertEquals(1000, target.getHealth());
+    }
+}

@@ -5,12 +5,22 @@ public class Character {
     private int health = 1000;
     private boolean alive = true;
     private int level = 1;
+    private int attackRange = 2;
 
     public Character() {
     }
 
     public Character(int level) {
+    this.level = level;
+    }
+
+    public Character(int level, int attackRange) {
         this.level = level;
+        this.attackRange = attackRange;
+    }
+
+    public int getAttackRange() {
+        return attackRange;
     }
 
     public int getHealth(){
@@ -25,8 +35,12 @@ public class Character {
         return level;
     }
 
-    public void dealDamage(Character target, int amount) {
+    public void dealDamage(Character target, int amount, int distance) {
         if (this == target) {
+            return;
+        }
+
+        if (distance > this.attackRange) {
             return;
         }
 

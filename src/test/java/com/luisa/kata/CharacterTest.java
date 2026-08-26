@@ -111,4 +111,23 @@ public class CharacterTest {
 
         assertEquals(700, character.getHealth());
     }
+
+    @Test
+    public void damageIsReducedWhenTargetIsFiveOrMoreLevelIsAbove(){
+        Character attacker = new Character(1);
+        Character target = new Character(6);
+
+        attacker.dealDamage(target, 100);
+
+        assertEquals(950, target.getHealth());
+    }
+
+    @Test
+    public void damageIsIncreasedWhenAttackerIsFiveOrMoreLevelsAbove() {
+        Character attacker = new Character(6);
+        Character target = new Character(1);
+
+        attacker.dealDamage(target, 100);
+        assertEquals(850, target.getHealth());
+    }
     }

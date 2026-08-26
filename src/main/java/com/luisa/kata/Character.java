@@ -6,6 +6,13 @@ public class Character {
     private boolean alive = true;
     private int level = 1;
 
+    public Character() {
+    }
+
+    public Character(int level) {
+        this.level = level;
+    }
+
     public int getHealth(){
         return health;
     }
@@ -23,7 +30,15 @@ public class Character {
             return;
         }
 
-        int newHealth = target.health - amount;
+        int modifiedAmount = amount;
+
+        if (target.level - this.level >= 5) {
+            modifiedAmount = (int) (amount * 0.5);
+        } else if (this.level - target.level >= 5) {
+            modifiedAmount = (int) (amount * 1.5);
+        }
+
+        int newHealth = target.health - modifiedAmount;
 
         if (newHealth <= 0) {
             target.health =0;

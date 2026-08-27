@@ -5,17 +5,25 @@ import java.util.Set;
 
 public class Character {
 
-    private int health = 1000;
+    private static final int MAX_HEALTH = 1000;
+    private static final int DEFAULT_LEVEL = 1;
+    private static final int DEFAULT_ATTACK_RANGE = 2;
+    private static final int LEVEL_DIFFERENCE_THRESHOLD = 5;
+    private static final double DAMAGE_REDUCTION_MULTIPLIER = 0.5;
+    private static final double DAMAGE_INCREASE_MULTIPLIER = 1.5;
+
+    private int health = MAX_HEALTH;
     private boolean alive = true;
-    private int level = 1;
-    private int attackRange = 2;
+    private int level = DEFAULT_LEVEL;
+    private int attackRange = DEFAULT_ATTACK_RANGE;
     private Set<String> factions = new HashSet<>();
 
     public Character() {
+        this(DEFAULT_LEVEL, DEFAULT_ATTACK_RANGE);
     }
 
     public Character(int level) {
-    this.level = level;
+        this(level, DEFAULT_ATTACK_RANGE);
     }
 
     public Character(int level, int attackRange) {
@@ -31,10 +39,10 @@ public class Character {
         return health;
     }
 
-    public  boolean isAlive(){
+    public boolean isAlive(){
         return alive;
     }
-    
+
     public int getLevel(){
         return level;
     }
@@ -48,50 +56,62 @@ public class Character {
             return;
         }
 
-        if (distance > this.attackRange) {
+        if (isOutOfRange(distance)) {
             return;
         }
 
         int modifiedAmount = amount;
 
-        if (target.level - this.level >= 5) {
-            modifiedAmount = (int) (amount * 0.5);
-        } else if (this.level - target.level >= 5) {
-            modifiedAmount = (int) (amount * 1.5);
+        if (target.level - this.level >= LEVEL_DIFFERENCE_THRESHOLD) {
+            modifiedAmount = (int) (amount * DAMAGE_REDUCTION_MULTIPLIER);
+        } else if (this.level - target.level >= LEVEL_DIFFERENCE_THRESHOLD) {
+            modifiedAmount = (int) (amount * DAMAGE_INCREASE_MULTIPLIER);
         }
 
-        int newHealth = target.health - modifiedAmount;
+        target.receiveDamage(modifiedAmount);
+    }
+
+    private void receiveDamage(int amount) {
+        int newHealth = health - amount;
 
         if (newHealth <= 0) {
-            target.health =0;
-            target.alive = false;
+            health = 0;
+            alive = false;
         } else {
-            target.health = newHealth;
+            health = newHealth;
         }
     }
 
     public void dealDamage(Tree target, int amount, int distance) {
-    if (distance > this.attackRange) {
-        return;
+        if (isOutOfRange(distance)) {
+            return;
+        }
+
+        target.receiveDamage(amount);
     }
 
-    target.receiveDamage(amount);
+    private boolean isOutOfRange(int distance) {
+        return distance > this.attackRange;
     }
 
     public void heal(Character target, int amount) {
-        if(this != target && !this.isAllyOf(target)) {
+        if (this != target && !this.isAllyOf(target)) {
             return;
         }
 
-        if (!target.alive) {
+        target.receiveHealing(amount);
+    }
+
+    private void receiveHealing(int amount) {
+        if (!alive) {
             return;
         }
 
-        int newHealth = target.health + amount;
-        if (newHealth > 1000) {
-            target.health = 1000;
+        int newHealth = health + amount;
+        if (newHealth > MAX_HEALTH) {
+            health = MAX_HEALTH;
         } else {
-            target.health = newHealth;
+            health = newHealth;
         }
     }
 
@@ -115,6 +135,4 @@ public class Character {
         }
         return false;
     }
-
 }
-

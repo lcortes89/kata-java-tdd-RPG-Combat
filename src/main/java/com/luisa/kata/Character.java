@@ -128,11 +128,6 @@ public class Character {
     }
 
     public boolean isAllyOf(Character other) {
-        for (String faction : this.factions) {
-            if (other.factions.contains(faction)) {
-                return true;
-            }
-        }
-        return false;
+        return this.factions.stream().anyMatch(other.factions::contains);
     }
 }
